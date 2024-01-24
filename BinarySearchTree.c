@@ -7,6 +7,58 @@ typedef struct Node
     struct Node *Left, *Right;
 } Node;
 
+// Node insertNode(int data, struct Node *Left, struct Node *Right)
+// {
+//     Node *root;
+//     root->data = data;
+//     root->Left = Left;
+//     root->Right = Right;
+//     return *root;
+// }
+
+// struct Node* insertNode(struct Node *root, int len)
+// {
+//     Node *root;
+//     for (int i = 0; i < len; i++)
+//     {
+//         root->data = data[i];
+//         if (data[i + 1] < data[i])
+//         {
+//             root->Left->data = data[i + 1];
+//             root->data = root->Left->data;
+//         }
+//         else if (data[i + 1] > data[i])
+//         {
+//             root->Right->data = data[i + 1];
+//             root->data = root->Right->data;
+//         }
+//     }
+//     printf("%d", root->data);
+//     printf("%d", root->Left->data);
+//     printf("%d", root->Right->data);
+// }
+
+struct Node *createNode(int data)
+{
+    struct Node *newNode = (struct Node *)malloc(sizeof(struct Node));
+    newNode->data = data;
+    newNode->Left = newNode->Right = NULL;
+    return newNode;
+}
+
+struct Node *insertNode (struct Node *root, int data) {
+    if (root == NULL) {
+        return createNode(data);
+    }
+
+    if (data < root-> data) {
+        root -> Left = insertNode(root->Left, data);
+    } else if(data > root -> data) {
+        root -> Right = insertNode(root -> Right, data);
+    }
+    return root;
+}
+
 void inOrderTraverse(struct Node *node)
 {
     if (node != NULL)
@@ -39,43 +91,33 @@ void postOrderTraverse(struct Node *node)
 
 int main()
 {
-    struct Node root;
-    root.data = 5;
-    
-    root.Left = (struct Node *)malloc(sizeof(struct Node));
-    root.Left->data = 6;
-    root.Left->Left = NULL;
-    root.Left->Right = (struct Node *)malloc(sizeof(struct Node));
-    root.Left->Right->data = 7;
-    root.Left->Right->Left = NULL;
-    root.Left->Right->Right = NULL;
-    
-    root.Right = (struct Node *)malloc(sizeof(struct Node));
-    root.Right->data = 8;
-    root.Right->Left = NULL;
-    
-    root.Right->Right = (struct Node *)malloc(sizeof(struct Node));
-    root.Right->Right->data = 9;
-    root.Right->Right->Left = NULL;
-    root.Right->Right->Right = NULL;
+
+    struct Node *root = NULL;
+      root = insertNode(root, 50);
+    insertNode(root, 30);
+    insertNode(root, 70);
+    insertNode(root, 20);
+    insertNode(root, 40);
+    insertNode(root, 60);
+    insertNode(root, 80);
 
     printf("preOrder Traverse: ");
-    preOrderTraverse(&root);
+    preOrderTraverse(root);
     printf("\n");
 
     printf("inOrder Traverse: ");
-    inOrderTraverse(&root);
+    inOrderTraverse(root);
     printf("\n");
 
     printf("postOrder Traverse: ");
-    postOrderTraverse(&root);
+    postOrderTraverse(root);
     printf("\n");
 
     // Free the allocated memory
-    free(root.Left->Right);
-    free(root.Left);
-    free(root.Right->Right);
-    free(root.Right);
+    // free(root.Left->Right);
+    // free(root.Left);
+    // free(root.Right->Right);
+    // free(root.Right);
 
     return 0;
 }
